@@ -13,7 +13,7 @@ const AllUser = () => {
     error,
     data: users,
   } = useQuery(["repoData"], () =>
-    fetch("http://localhost:3306/user").then((res) => res.json())
+    fetch("http://localhost:3306/users").then((res) => res.json())
   );
 
   if (isLoading) return "Loading...";

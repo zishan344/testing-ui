@@ -1,4 +1,3 @@
-import { signOut } from "firebase/auth";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { VscThreeBars } from "react-icons/vsc";
@@ -39,10 +38,22 @@ const Dashboard = () => {
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-        <ul className="menu p-4 overflow-y-auto w-60 md:w-80 bg-base-100 text-base-content">
+        <ul className="menu p-4 overflow-y-auto w-50 md:w-60 bg-base-100 text-base-content">
           {/* <!-- Sidebar content here --> */}
           <li>
-            <NavLink to="/">Home</NavLink>
+            <NavLink to="/">Default</NavLink>
+          </li>
+          <li>
+            <NavLink to="/paymentVerify">Payment Verification</NavLink>
+          </li>
+          <li>
+            <NavLink to="/approveIdentity">Approve identity</NavLink>
+          </li>
+          <li>
+            <NavLink to="/dispute">Dispute verify</NavLink>
+          </li>
+          <li>
+            <NavLink to="/analysis">Marketing Analysis</NavLink>
           </li>
           {/*
           {(verify == "User" || verify == "Admin" || verify == "Moderator") && (
@@ -80,7 +91,7 @@ const Dashboard = () => {
             </NavLink>
           </li> */}
 
-          {user ? (
+          {user && (
             <>
               {(verify == "agent" ||
                 verify == "moderator" ||
@@ -115,18 +126,6 @@ const Dashboard = () => {
                   </li>
                 </>
               )}
-
-              <li>
-                <NavLink onClick={() => signOut(auth)} to="/login">
-                  Logout
-                </NavLink>
-              </li>
-            </>
-          ) : (
-            <>
-              <li>
-                <NavLink to="/login">Login</NavLink>
-              </li>
             </>
           )}
         </ul>

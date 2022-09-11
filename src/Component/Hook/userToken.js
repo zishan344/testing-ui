@@ -7,7 +7,7 @@ const useToken = (user, pass) => {
     const currentUser = user?.user?.email;
     console.log(currentUser);
     if (user && pass) {
-      fetch(`http://localhost:3306/${currentUser}`, {
+      fetch(`http://localhost:3306/users/${currentUser}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

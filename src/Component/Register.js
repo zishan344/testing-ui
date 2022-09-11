@@ -45,7 +45,7 @@ const Register = () => {
     // const currentUser = Ruser?.user?.email;
     console.log(displayName);
 
-    fetch(`http://localhost:3306/${email}`, {
+    fetch(`http://localhost:3306/users/${email}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

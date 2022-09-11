@@ -6,7 +6,7 @@ const useVerify = (user) => {
   useEffect(() => {
     if (user) {
       const email = user?.email;
-      fetch(`http://localhost:3306/${email}`)
+      fetch(`http://localhost:3306/users/${email}`)
         .then((res) => res.json())
         .then((data) => {
           // console.log(data[0].user_login);

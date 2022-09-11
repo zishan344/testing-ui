@@ -14,7 +14,7 @@ const Moderator = () => {
     data: users,
     refetch,
   } = useQuery(["repoData"], () =>
-    fetch("http://localhost:3306/user").then((res) => res.json())
+    fetch("http://localhost:3306/users").then((res) => res.json())
   );
   if (isLoading) return "Loading...";
   // console.log(users);
@@ -25,7 +25,7 @@ const Moderator = () => {
     if (!confirm) {
       return;
     }
-    fetch(`http://localhost:3306/${email}`, {
+    fetch(`http://localhost:3306/users/${email}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
     })

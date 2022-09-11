@@ -9,17 +9,27 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Admin from "./Component/Admin";
 import AllUser from "./Component/AllUser";
+import Approveidentity from "./Component/Approveidentity/Approveidentity";
 import CompanySicreat from "./Component/CompanySicreat";
+import Dispute from "./Component/Dispute/Dispute";
+import Marketing from "./Component/MarketingAnalysis/Marketing";
 import Moderator from "./Component/Moderator";
+import Navbar from "./Component/Navbar/Navbar";
+import PaymentVerifyMainPage from "./Component/PaymentVerification/PaymentVerifyMainPage";
 import Test from "./Component/Test";
 import TotalUser from "./Component/TotalUser";
 function App() {
   return (
     <div>
+      <Navbar />
       <Routes>
         {/* <Route path="/" element={<Dashboard />} /> */}
         <Route path="/" element={<Dashboard />}>
           <Route index element={<Home />} />
+          <Route path="/paymentVerify" element={<PaymentVerifyMainPage />} />
+          <Route path="/approveidentity" element={<Approveidentity />} />
+          <Route path="/dispute" element={<Dispute />} />
+          <Route path="/analysis" element={<Marketing />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/sickertAdmin" element={<CompanySicreat />} />
           <Route path="/moderator" element={<Moderator />} />

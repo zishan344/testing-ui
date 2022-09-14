@@ -1,18 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useQuery } from "react-query";
 import Swal from "sweetalert2";
+import Loading from "../../Loading";
 const RowTwo = ({ searchItem }) => {
   console.log(searchItem);
-  const [users, setUser] = useState([]);
+  // const [users, setUser] = useState([]);
   // const { users: u } = useUserHook();
   // console.log(u);
-  useEffect(() => {
-    fetch("http://localhost:3306/users")
-      .then((res) => res.json())
-      .then((data) => setUser(data));
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:3306/paymentHistory")
+  //     .then((res) => res.json())
+  //     .then((data) => setUser(data));
+  // }, []);
+  const {
+    isLoading,
+    error,
+    data: users,
+    refetch,
+  } = useQuery(["repoData"], () =>
+    fetch("http://localhost:3306/paymentHistory").then((res) => res.json())
+  );
+
+  if (isLoading) return <Loading />;
   // console.log(users);
-  const note = (value) => {
+  const remarkStatus = (value, token_id) => {
+    console.log({ value, token_id });
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: "btn btn-success",
@@ -36,29 +49,46 @@ const RowTwo = ({ searchItem }) => {
           Swal.fire({
             title: `Submit your ${value} region`,
             input: "text",
+
             inputAttributes: {
               autocapitalize: "off",
+              required: "true",
             },
             showCancelButton: true,
             confirmButtonText: "save note",
             showLoaderOnConfirm: true,
-            /* preConfirm: (login) => {
-              return fetch(`//api.github.com/users/${login}`)
-                .then((response) => {
-                  if (!response.ok) {
-                    throw new Error(response.statusText);
-                  }
-                  return response.json();
-                })
-                .catch((error) => {
-                  Swal.showValidationMessage(`Request failed: ${error}`);
-                });
-            }, */
+
             allowOutsideClick: () => !Swal.isLoading(),
           }).then((result) => {
+            if (result?.value) {
+              // const payment = { value, token_id };
+              /*  fetch(`http://localhost:3306/paymentHistory/${token_id}`, {
+                method: "patch",
+                body: JSON.stringify(payment),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              })
+                .then((res) => res.json())
+                .then((data) => console.log(data)); */
+
+              fetch(`http://localhost:3306/paymentHistory/${token_id}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  status: value,
+                  notes: result.value,
+                }),
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  refetch();
+                  console.log(data);
+                });
+            }
             if (result.isConfirmed) {
               swalWithBootstrapButtons.fire(
-                console.log(result)`${value}!`,
+                `${value}!`,
                 `Your file has been saved.`,
                 "success"
               );
@@ -99,7 +129,7 @@ const RowTwo = ({ searchItem }) => {
                 if (searchItem == "") {
                   return u;
                 } else if (
-                  u.user_email.toLowerCase().includes(searchItem.toLowerCase())
+                  u?.token.toLowerCase().includes(searchItem.toLowerCase())
                 ) {
                   return u;
                 }
@@ -107,16 +137,18 @@ const RowTwo = ({ searchItem }) => {
               .map((user) => (
                 <tr>
                   <th>
-                    <div className="font-bold">15 jun 22</div>
-                    <div className="text-sm opacity-50">2:28 PM</div>
+                    <div className="font-bold">{user.date.split(",")[0]}</div>
+                    <div className="text-sm opacity-50">
+                      {user.date.split(",")[1]}
+                    </div>
                   </th>
-                  <td>45485715254</td>
-                  <td>test</td>
-                  <td>{user?.user_email}</td>
-                  <td>$454</td>
+                  <td>{user.token}</td>
+                  <td>{user.reference}</td>
+                  <td>{user?.user_id}</td>
+                  <td>${user.amount}</td>
                   <td>
                     <div className="flex justify-between gap-4 items-center ">
-                      <p>User Canceled</p>
+                      <p>{user.status}</p>
                     </div>
                   </td>
                   <td>
@@ -129,17 +161,29 @@ const RowTwo = ({ searchItem }) => {
                         className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
                       >
                         <li>
-                          <button onClick={() => note("approved")}>
+                          <button
+                            onClick={() =>
+                              remarkStatus("approved", user.token_id)
+                            }
+                          >
                             Approved
                           </button>
                         </li>
                         <li>
-                          <button onClick={() => note("decline")}>
+                          <button
+                            onClick={() =>
+                              remarkStatus("decline", user.token_id)
+                            }
+                          >
                             Decline
                           </button>
                         </li>
                         <li>
-                          <button onClick={() => note("block")}>Block</button>
+                          <button
+                            onClick={() => remarkStatus("block", user.token_id)}
+                          >
+                            Block
+                          </button>
                         </li>
                       </ul>
                     </div>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 const Admin = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3306/users")
+    fetch("https://backoffice.elite-professionals.in/users")
       .then((res) => res.json())
       .then((data) => setUsers(data));
   }, []);

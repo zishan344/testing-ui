@@ -7,7 +7,7 @@ const useToken = (user, pass) => {
     const currentUser = user?.user?.email;
     console.log(currentUser);
     if (user && pass) {
-      fetch(`http://localhost:3306/users/${currentUser}`, {
+      fetch(`https://backoffice.elite-professionals.in/users/${currentUser}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

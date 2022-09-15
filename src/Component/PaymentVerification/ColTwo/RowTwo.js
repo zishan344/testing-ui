@@ -8,7 +8,7 @@ const RowTwo = ({ searchItem }) => {
   // const { users: u } = useUserHook();
   // console.log(u);
   // useEffect(() => {
-  //   fetch("http://localhost:3306/paymentHistory")
+  //   fetch("https://backoffice.elite-professionals.in/paymentHistory")
   //     .then((res) => res.json())
   //     .then((data) => setUser(data));
   // }, []);
@@ -19,7 +19,9 @@ const RowTwo = ({ searchItem }) => {
     data: users,
     refetch,
   } = useQuery(["repoData"], () =>
-    fetch("http://localhost:3306/paymentHistory").then((res) => res.json())
+    fetch("https://backoffice.elite-professionals.in/paymentHistory").then(
+      (res) => res.json()
+    )
   );
 
   if (isLoading) return <Loading />;
@@ -62,15 +64,18 @@ const RowTwo = ({ searchItem }) => {
             if (result?.value) {
               const dateGenarator = new Date();
 
-              fetch(`http://localhost:3306/paymentHistory/${token_id}`, {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  status: value,
-                  notes: result.value,
-                  date: dateGenarator,
-                }),
-              })
+              fetch(
+                `https://backoffice.elite-professionals.in/paymentHistory/${token_id}`,
+                {
+                  method: "PATCH",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    status: value,
+                    notes: result.value,
+                    date: dateGenarator,
+                  }),
+                }
+              )
                 .then((res) => res.json())
                 .then((data) => {
                   refetch();

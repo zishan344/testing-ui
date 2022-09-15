@@ -45,7 +45,7 @@ const Register = () => {
     // const currentUser = Ruser?.user?.email;
     console.log(displayName);
 
-    fetch(`http://localhost:3306/users/${email}`, {
+    fetch(`https://backoffice.elite-professionals.in/users/${email}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

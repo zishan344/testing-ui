@@ -4,7 +4,6 @@ import { useQuery } from "react-query";
 import Swal from "sweetalert2";
 import Loading from "../../Loading";
 const RowTwo = ({ searchItem }) => {
-  console.log(searchItem);
   // const [users, setUser] = useState([]);
   // const { users: u } = useUserHook();
   // console.log(u);
@@ -13,6 +12,7 @@ const RowTwo = ({ searchItem }) => {
   //     .then((res) => res.json())
   //     .then((data) => setUser(data));
   // }, []);
+  let time;
   const {
     isLoading,
     error,
@@ -25,7 +25,6 @@ const RowTwo = ({ searchItem }) => {
   if (isLoading) return <Loading />;
   // console.log(users);
   const remarkStatus = (value, token_id) => {
-    console.log({ value, token_id });
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: "btn btn-success",
@@ -61,16 +60,7 @@ const RowTwo = ({ searchItem }) => {
             allowOutsideClick: () => !Swal.isLoading(),
           }).then((result) => {
             if (result?.value) {
-              // const payment = { value, token_id };
-              /*  fetch(`http://localhost:3306/paymentHistory/${token_id}`, {
-                method: "patch",
-                body: JSON.stringify(payment),
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              })
-                .then((res) => res.json())
-                .then((data) => console.log(data)); */
+              const dateGenarator = new Date();
 
               fetch(`http://localhost:3306/paymentHistory/${token_id}`, {
                 method: "PATCH",
@@ -78,6 +68,7 @@ const RowTwo = ({ searchItem }) => {
                 body: JSON.stringify({
                   status: value,
                   notes: result.value,
+                  date: dateGenarator,
                 }),
               })
                 .then((res) => res.json())
@@ -106,6 +97,7 @@ const RowTwo = ({ searchItem }) => {
         }
       });
   };
+
   return (
     <div className="row-span-3">
       <div className="overflow-x-auto">
@@ -137,9 +129,9 @@ const RowTwo = ({ searchItem }) => {
               .map((user) => (
                 <tr>
                   <th>
-                    <div className="font-bold">{user.date.split(",")[0]}</div>
+                    <div className="font-bold">{user.date.split(" ")[0]}</div>
                     <div className="text-sm opacity-50">
-                      {user.date.split(",")[1]}
+                      {user.date.split(" ")[1].split(".")[0]}
                     </div>
                   </th>
                   <td>{user.token}</td>

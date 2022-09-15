@@ -16,6 +16,7 @@ import Marketing from "./Component/MarketingAnalysis/Marketing";
 import Moderator from "./Component/Moderator";
 import Navbar from "./Component/Navbar/Navbar";
 import PaymentVerifyMainPage from "./Component/PaymentVerification/PaymentVerifyMainPage";
+import Permission from "./Component/Permission/Permission";
 import Test from "./Component/Test";
 import TotalUser from "./Component/TotalUser";
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/paymentVerify" element={<PaymentVerifyMainPage />} />
           <Route path="/approveidentity" element={<Approveidentity />} />
+          <Route path="/userpermission" element={<Permission />} />
           <Route path="/dispute" element={<Dispute />} />
           <Route path="/analysis" element={<Marketing />} />
           <Route path="/admin" element={<Admin />} />

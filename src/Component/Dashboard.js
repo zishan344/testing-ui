@@ -55,6 +55,9 @@ const Dashboard = () => {
           <li>
             <NavLink to="/analysis">Marketing Analysis</NavLink>
           </li>
+          <li>
+            <NavLink to="/userpermission">User Permission</NavLink>
+          </li>
           {/*
           {(verify == "User" || verify == "Admin" || verify == "Moderator") && (
             <>

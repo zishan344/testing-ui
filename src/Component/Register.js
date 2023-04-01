@@ -43,7 +43,6 @@ const Register = () => {
     await createUserWithEmailAndPassword(email, password);
     await updateProfile({ displayName });
     // const currentUser = Ruser?.user?.email;
-    console.log(displayName);
 
     fetch(`https://backoffice.elite-professionals.in/users/${email}`, {
       method: "PUT",
@@ -61,7 +60,7 @@ const Register = () => {
       .then((data) => console.log(data));
   };
   return (
-    <div className="flex justify-center py-4 bg-base-100">
+    <div className="flex justify-center py-4 container mx-auto bg-base-100">
       <div className="card w-[700px] shadow-md bg-base-100">
         <div className="card-body">
           <h2 className="text-2xl text-center font-bold text-secondary">

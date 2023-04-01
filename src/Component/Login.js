@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   useSendPasswordResetEmail,
   useSignInWithEmailAndPassword,
-  useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -12,13 +11,12 @@ import useToken from "./Hook/userToken";
 import Loading from "./Loading";
 
 const Login = () => {
-  const [signInWithGoogle, guser, gloading, gerror] = useSignInWithGoogle(auth);
   const [signInWithEmailAndPassword, Luser, Lloading, Lerror] =
     useSignInWithEmailAndPassword(auth);
   const [email, setEmail] = useState("");
   const [sendPasswordResetEmail, sending, error] =
     useSendPasswordResetEmail(auth);
-  const [token] = useToken(guser);
+  const [token] = useToken(Luser);
   const {
     register,
     formState: { errors },
@@ -28,26 +26,24 @@ const Login = () => {
   let from = location.state?.from?.pathname || "/";
   const navigate = useNavigate();
 
-  if (guser || Luser) {
+  if (Luser) {
     navigate(from, { replace: true });
   }
 
   let mrError;
-  if (gerror || Lerror) {
-    mrError = (
-      <p className="mt-3 text-red-500">{gerror?.message || Lerror?.message}</p>
-    );
+  if (Lerror) {
+    mrError = <p className="mt-3 text-red-500">{Lerror?.message}</p>;
   }
 
   const onSubmit = (data) => {
     const { email, password } = data;
     signInWithEmailAndPassword(email, password);
   };
-  if (gloading || Lloading) {
+  if (Lloading) {
     return <Loading />;
   }
   return (
-    <div className="flex justify-center py-4 bg-base-100">
+    <div className="flex justify-center py-4 bg-base-100 container mx-auto">
       <div className="card w-[700px] bg-base-100">
         <div className="card-body">
           <h2 className="text-2xl text-center font-bold text-secondary">
@@ -133,8 +129,6 @@ const Login = () => {
             </div>
           </form>
         </div>
-     
-        
       </div>
     </div>
   );

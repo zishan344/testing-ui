@@ -10,7 +10,7 @@ const HomeOnecolumn = () => {
       .then((res) => res.json())
       .then((data) => setUsers(data));
   }, []);
-  console.log(users);
+
   return (
     <div className="flex flex-col gap-6">
       <div className="card max-w-4xl bg-base-100 shadow-xl">

@@ -1,51 +1,65 @@
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { VscThreeBars } from "react-icons/vsc";
 import { NavLink, Outlet } from "react-router-dom";
 import auth from "../firebase.init";
+import useTestRole from "./Hook/useTestRole";
 import useVerify from "./Hook/useVerify";
+import Loading from "./Loading";
 const Dashboard = () => {
   const [user, loading, error] = useAuthState(auth);
-  // const [admin, setAdmin] = useState(false);
-  // const [moderator, setModerator] = useState(false);
-  // const [User, setUser] = useState(false);
   const [verify, adminLoading] = useVerify(user);
-  // console.log(verify);
-  // console.log(user);
+  const { accessRouter, routeUser } = useTestRole(user?.email);
 
-  // useEffect(() => {
-  //   if (verify == "Admin") {
-  //     setAdmin(true);
-  //   }elseIf(verify == "Moderator"){
-  //     setModerator(true);
-  //   }elseIf(verify == "User"){
-  //    setUser(true);
-  //   }
-  // }, [user]);
+  if (!accessRouter && !routeUser) {
+    return <Loading />;
+  }
 
   return (
-    <div className="drawer drawer-mobile">
+    <div className="drawer">
+      {/* drawer-mobile */}
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content ">
+      <div className="drawer-content scrollbar-hide container mx-auto">
         {/* <!-- Page content here --> */}
+        <div className="navbar-start">
+          <label
+            tabIndex={0}
+            htmlFor="my-drawer-2"
+            className="btn btn-ghost btn-circle "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h7"
+              />
+            </svg>
+          </label>
+        </div>
         <Outlet />
-        <label
-          htmlFor="my-drawer-2"
-          className="btn btn-secondary btn-outline drawer-button absolute top-0 right-3 lg:hidden"
-        >
-          <VscThreeBars />
-        </label>
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-        <ul className="menu p-4 overflow-y-auto w-50 md:w-60 bg-base-100 text-base-content">
+        <ul className="menu p-4 overflow-y-auto w-48 md:w-60 bg-base-100 text-base-content">
           {/* <!-- Sidebar content here --> */}
+
           <li>
             <NavLink to="/">Default</NavLink>
           </li>
-          <li>
-            <NavLink to="/paymentVerify">Payment Verification</NavLink>
-          </li>
+
+          {(accessRouter?.paymentVerify === "payment_verification" ||
+            routeUser?.role === "admin") && (
+            <li>
+              <NavLink to="/paymentVerify">Payment Verification</NavLink>
+            </li>
+          )}
+
           <li>
             <NavLink to="/approveIdentity">Approve identity</NavLink>
           </li>
@@ -58,41 +72,9 @@ const Dashboard = () => {
           <li>
             <NavLink to="/userpermission">User Permission</NavLink>
           </li>
-          {/*
-          {(verify == "User" || verify == "Admin" || verify == "Moderator") && (
-            <>
-              <li>
-                <NavLink to="/publicUser">Normal User</NavLink>
-              </li>
-            </>
-          )}
-          {(verify == "Admin" || verify == "Moderator") && (
-            <>
-              <li>
-                <NavLink to="/Moderator">Moderator</NavLink>
-              </li>
-              <li>
-                <NavLink to="/admin">Admin</NavLink>
-              </li>
-            </>
-          )}
-          {verify == "Admin" && (
-            <>
-              <li>
-                <NavLink to="/sickertAdmin">Company Sickert</NavLink>
-              </li>
-
-              <li>
-                <NavLink to="/totaluser">Total User</NavLink>
-              </li>
-            </>
-          )}
-
           <li>
-            <NavLink onClick={() => signOut(auth)} to="/login">
-              Logout
-            </NavLink>
-          </li> */}
+            <NavLink to="/general">General</NavLink>
+          </li>
 
           {user && (
             <>

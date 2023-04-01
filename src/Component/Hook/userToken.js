@@ -5,7 +5,7 @@ const useToken = (user, pass) => {
   // console.log(user?.user?.displayName);
   useEffect(() => {
     const currentUser = user?.user?.email;
-    console.log(currentUser);
+
     if (user && pass) {
       fetch(`https://backoffice.elite-professionals.in/users/${currentUser}`, {
         method: "PUT",

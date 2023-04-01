@@ -1,13 +1,10 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
+import auth from "../firebase.init";
 
 const AllUser = () => {
-  // const [users, setUsers] = useState([]);
-  // useEffect(() => {
-  //   fetch("https://immense-oasis-81446.herokuapp.com/user")
-  //     .then((res) => res.json())
-  //     .then((data) => setUsers(data));
-  // }, []);
+  const [user, loading] = useAuthState(auth);
   const {
     isLoading,
     error,
@@ -17,11 +14,12 @@ const AllUser = () => {
       res.json()
     )
   );
-
   if (isLoading) return "Loading...";
-  const normal = users.filter(
-    (user) => user?.user_login != "admin" && user?.user_login != "moderator"
-  );
+
+  // const normal = users.filter(
+  //   (user) => user?.user_login !== "admin" && user?.user_login !== "moderator"
+  // );
+  console.log(users);
   return (
     <div className="overflow-x-auto">
       <table className="table table-zebra w-full">
@@ -35,8 +33,8 @@ const AllUser = () => {
           </tr>
         </thead>
         <tbody>
-          {normal.map((user, index) => (
-            <tr key={user._id}>
+          {users.map((user, index) => (
+            <tr key={index + 1 * 3}>
               <th>{index + 1}</th>
               <td>{user?.user_nicename}</td>
               <td>{user?.user_email}</td>

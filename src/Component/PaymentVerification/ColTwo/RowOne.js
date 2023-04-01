@@ -4,10 +4,9 @@ import { IoIosArrowDown } from "react-icons/io";
 
 const RowOne = ({ searchItem, setSearchItem }) => {
   const arr = [
-    "Total Transition",
-    "Amount Credit",
-    "Amount Devited",
-    "Download",
+    { name: "Total Transition", count: "3" },
+    { name: "Amount Credit", amount: "0.00" },
+    { name: "Amount Devited", amount: "0.00" },
   ];
   return (
     <div>
@@ -36,10 +35,19 @@ const RowOne = ({ searchItem, setSearchItem }) => {
           </h2>
         </div>
       </div>
-      <div className="grid grid-cols-4 justify-center">
-        {arr.map((a) => (
-          <h1>{a}</h1>
+      <div className="grid grid-cols-4 justify-center mb-10">
+        {arr.map((a, index) => (
+          <div key={index}>
+            <h2 className="text-2xl">{a?.count}</h2>
+            <h2 className="text-2xl">{a?.amount && `$ ${a.amount}`}</h2>
+            <h2>{a.name}</h2>
+          </div>
         ))}
+        <div>
+          <button class="btn btn-outline btn-secondary rounded-full">
+            Download
+          </button>
+        </div>
       </div>
     </div>
   );

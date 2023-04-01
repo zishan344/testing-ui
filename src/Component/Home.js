@@ -6,7 +6,6 @@ import FullColTwo from "./Home.component.js/HomeTwoColumn/HomeTwoColumn.";
 
 const Home = () => {
   const [user, loading, error] = useAuthState(auth);
-  console.log(user);
   return (
     <div className="grid grid-cols-3 gap-6">
       <div>

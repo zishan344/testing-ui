@@ -1,0 +1,141 @@
+ <div>
+      <div className="overflow-x-auto">
+        <table className="table table-zebra w-full">
+          {/* <!-- head --> */}
+          <thead>
+            <tr>
+              <th>users</th>
+              <th>payment verification</th>
+              <th>approve identify</th>
+              <th>Disput verify</th>
+              <th>marketing analisis</th>
+              <th>user permission</th>
+              <th></th>
+
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* <!-- row 1 --> */}
+            {users
+              ?.filter((u) => {
+                if (inputText == "") {
+                  return u;
+                } else if (
+                  u?.user_email.toLowerCase().includes(inputText.toLowerCase())
+                ) {
+                  return u;
+                }
+              })
+              .map((u, index) => (
+                <tr key={index + 2 - 1 * 3}>
+                  <th>{u?.user_email}</th>
+                  <th>
+                    <label>
+                      <input
+                        /* disabled={checkDisabled} */
+                        onChange={(e) =>
+                          e.target.checked
+                            ? setPaymentVerify("payment_verification")
+                            : setPaymentVerify("")
+                        }
+                        type="checkbox"
+                        className="checkbox"
+                      />
+                    </label>
+                  </th>
+                  <th>
+                    <label>
+                      <input
+                        /* disabled={checkDisabled} */
+
+                        onChange={(e) =>
+                          e.target.checked
+                            ? setIdenty("approved_identy")
+                            : setIdenty("")
+                        }
+                        type="checkbox"
+                        className="checkbox"
+                      />
+                    </label>
+                  </th>
+                  <th>
+                    <label>
+                      <input
+                        /* disabled={checkDisabled} */
+
+                        onChange={(e) =>
+                          e.target.checked
+                            ? setDisputVerify("disput_verify")
+                            : setDisputVerify("")
+                        }
+                        type="checkbox"
+                        className="checkbox"
+                      />
+                    </label>
+                  </th>
+                  <th>
+                    <label>
+                      <input
+                        /* disabled={checkDisabled} */
+                        onChange={(e) =>
+                          e.target.checked
+                            ? setMarketingAnalysis("marketing_analysis")
+                            : setMarketingAnalysis("")
+                        }
+                        type="checkbox"
+                        className="checkbox"
+                      />
+                    </label>
+                  </th>
+                  <th>
+                    <label>
+                      <input
+                        /* disabled={checkDisabled} */
+                        onChange={(e) =>
+                          e.target.checked
+                            ? setUserPermission("user_permission")
+                            : setUserPermission("")
+                        }
+                        type="checkbox"
+                        className="checkbox"
+                      />
+                    </label>
+                  </th>
+                  <th>
+                    <button
+                      onClick={() => adminPermission(u.user_email)}
+                      className="btn swap-off btn-xs"
+                    >
+                      save
+                    </button>
+                    {/* <div className="">
+                      <label className="swap">
+                        <input type="checkbox" />
+                        <div
+                          onClick={() => setCheckDisabled(false)}
+                          className=" flex gap-6 swap-on items-center"
+                        >
+                          <p className="link swap-off text-red-400">cancel</p>
+                          <button
+                            onClick={() => adminPermission("s")}
+                            className="btn swap-off btn-xs"
+                          >
+                            save
+                          </button>
+                        </div>
+                        <div
+                          onClick={() => setCheckDisabled(true)}
+                          className="swap-off link text-green-400"
+                        >
+                          Edit
+                        </div>
+                      </label>
+                    </div> */}
+                  </th>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+    </div>

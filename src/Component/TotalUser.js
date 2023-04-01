@@ -23,6 +23,7 @@ const TotalUser = () => {
   );
 
   if (isLoading) return <Loading />;
+  if (error) console.log("An error has occurred: " + error.message);
 
   return (
     <div>

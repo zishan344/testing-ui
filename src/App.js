@@ -12,6 +12,7 @@ import AllUser from "./Component/AllUser";
 import Approveidentity from "./Component/Approveidentity/Approveidentity";
 import CompanySicreat from "./Component/CompanySicreat";
 import Dispute from "./Component/Dispute/Dispute";
+import General from "./Component/Genarel";
 import Marketing from "./Component/MarketingAnalysis/Marketing";
 import Moderator from "./Component/Moderator";
 import Navbar from "./Component/Navbar/Navbar";
@@ -19,13 +20,22 @@ import PaymentVerifyMainPage from "./Component/PaymentVerification/PaymentVerify
 import Permission from "./Component/Permission/Permission";
 import Test from "./Component/Test";
 import TotalUser from "./Component/TotalUser";
+import RequireAuth from "./require/RequireAuth";
+
 function App() {
   return (
     <div>
       <Navbar />
       <Routes>
         {/* <Route path="/" element={<Dashboard />} /> */}
-        <Route path="/" element={<Dashboard />}>
+        <Route
+          path="/"
+          element={
+            <RequireAuth>
+              <Dashboard />
+            </RequireAuth>
+          }
+        >
           <Route index element={<Home />} />
           <Route path="/paymentVerify" element={<PaymentVerifyMainPage />} />
           <Route path="/approveidentity" element={<Approveidentity />} />
@@ -38,9 +48,10 @@ function App() {
           <Route path="/publicUser" element={<AllUser />} />
           <Route path="/test" element={<Test />} />
           <Route path="/totalUser" element={<TotalUser />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/general" element={<General />} />
         </Route>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
       <ToastContainer />
     </div>

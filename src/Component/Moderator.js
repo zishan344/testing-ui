@@ -21,7 +21,7 @@ const Moderator = () => {
   if (isLoading) return "Loading...";
   // console.log(users);
   const moderator = users.filter((user) => user?.user_login == "moderator");
-  console.log(moderator);
+
   const removeRole = (email) => {
     const confirm = window.confirm("Are you sure you want to remove moderator");
     if (!confirm) {

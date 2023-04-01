@@ -17,7 +17,6 @@ const TotalSingleUse = ({ user, index, refetch }) => {
       .then((res) => res.json())
       .then((data) => {
         refetch();
-        console.log(data);
       });
   };
   const makeModerator = (email) => {

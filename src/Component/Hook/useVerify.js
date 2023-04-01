@@ -11,7 +11,7 @@ const useVerify = (user) => {
         .then((data) => {
           // console.log(data[0].user_login);
           setVerify(data[0].user_login);
-          console.log(verify);
+
           setAdminLoading(false);
         });
     }

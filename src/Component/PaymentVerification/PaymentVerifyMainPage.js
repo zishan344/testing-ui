@@ -10,7 +10,7 @@ const PaymentVerifyMainPage = () => {
       <div>
         <ColOne />
       </div>
-      <div className="col-span-2 grid grid-rows-4">
+      <div className="col-span-2 grid grid-rows-4 mx-12">
         <RowOne searchItem={searchItem} setSearchItem={setSearchItem} />
         <RowTwo searchItem={searchItem} />
       </div>

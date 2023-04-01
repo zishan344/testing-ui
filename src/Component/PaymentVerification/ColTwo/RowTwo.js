@@ -4,29 +4,21 @@ import { useQuery } from "react-query";
 import Swal from "sweetalert2";
 import Loading from "../../Loading";
 const RowTwo = ({ searchItem }) => {
-  // const [users, setUser] = useState([]);
-  // const { users: u } = useUserHook();
-  // console.log(u);
-  // useEffect(() => {
-  //   fetch("https://backoffice.elite-professionals.in/paymentHistory")
-  //     .then((res) => res.json())
-  //     .then((data) => setUser(data));
-  // }, []);
-  let time;
   const {
     isLoading,
     error,
-    data: users,
+    data: paymentHistory,
     refetch,
-  } = useQuery(["repoData"], () =>
+  } = useQuery(["paymentData"], () =>
     fetch("https://backoffice.elite-professionals.in/paymentHistory").then(
       (res) => res.json()
     )
   );
-
   if (isLoading) return <Loading />;
-  // console.log(users);
+  console.log(paymentHistory);
+
   const remarkStatus = (value, token_id) => {
+    console.log(value, token_id);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: "btn btn-success",
@@ -50,7 +42,7 @@ const RowTwo = ({ searchItem }) => {
           Swal.fire({
             title: `Submit your ${value} region`,
             input: "text",
-
+            inputPlaceholder: `write note why ${value}`,
             inputAttributes: {
               autocapitalize: "off",
               required: "true",
@@ -58,24 +50,21 @@ const RowTwo = ({ searchItem }) => {
             showCancelButton: true,
             confirmButtonText: "save note",
             showLoaderOnConfirm: true,
-
+            //
             allowOutsideClick: () => !Swal.isLoading(),
           }).then((result) => {
             if (result?.value) {
               const dateGenarator = new Date();
-
-              fetch(
-                `https://backoffice.elite-professionals.in/paymentHistory/${token_id}`,
-                {
-                  method: "PATCH",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    status: value,
-                    notes: result.value,
-                    date: dateGenarator,
-                  }),
-                }
-              )
+              console.log(value, result.value, dateGenarator);
+              fetch(`http://localhost:3306/paymentHistory/${token_id}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  status: value,
+                  notes: result.value,
+                  date: dateGenarator,
+                }),
+              })
                 .then((res) => res.json())
                 .then((data) => {
                   refetch();
@@ -103,9 +92,9 @@ const RowTwo = ({ searchItem }) => {
       });
   };
 
-  return (
+  return paymentHistory.length !== 0 ? (
     <div className="row-span-3">
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto scrollbar-hide">
         <table className="table table-zebra w-full">
           {/* <!-- head --> */}
           <thead>
@@ -121,7 +110,7 @@ const RowTwo = ({ searchItem }) => {
           </thead>
           <tbody>
             {/* <!-- row 1 --> */}
-            {users
+            {paymentHistory
               ?.filter((u) => {
                 if (searchItem == "") {
                   return u;
@@ -131,21 +120,23 @@ const RowTwo = ({ searchItem }) => {
                   return u;
                 }
               })
-              .map((user) => (
-                <tr>
+              .map((user, index) => (
+                <tr key={index}>
                   <th>
-                    <div className="font-bold">{user.date.split(" ")[0]}</div>
+                    <div className="font-bold">
+                      {/* {user?.date.split("T")[0]} */}
+                    </div>
                     <div className="text-sm opacity-50">
-                      {user.date.split(" ")[1].split(".")[0]}
+                      {/* {user?.date?.split("T")[1]?.split(".")[0]} */}
                     </div>
                   </th>
-                  <td>{user.token}</td>
-                  <td>{user.reference}</td>
+                  <td>{user?.token}</td>
+                  <td>{user?.reference}</td>
                   <td>{user?.user_id}</td>
-                  <td>${user.amount}</td>
+                  <td>${user?.amount}</td>
                   <td>
                     <div className="flex justify-between gap-4 items-center ">
-                      <p>{user.status}</p>
+                      <p>{user?.status}</p>
                     </div>
                   </td>
                   <td>
@@ -160,7 +151,7 @@ const RowTwo = ({ searchItem }) => {
                         <li>
                           <button
                             onClick={() =>
-                              remarkStatus("approved", user.token_id)
+                              remarkStatus("approved", user?.token_id)
                             }
                           >
                             Approved
@@ -169,7 +160,7 @@ const RowTwo = ({ searchItem }) => {
                         <li>
                           <button
                             onClick={() =>
-                              remarkStatus("decline", user.token_id)
+                              remarkStatus("decline", user?.token_id)
                             }
                           >
                             Decline
@@ -177,7 +168,9 @@ const RowTwo = ({ searchItem }) => {
                         </li>
                         <li>
                           <button
-                            onClick={() => remarkStatus("block", user.token_id)}
+                            onClick={() =>
+                              remarkStatus("block", user?.token_id)
+                            }
                           >
                             Block
                           </button>
@@ -190,6 +183,10 @@ const RowTwo = ({ searchItem }) => {
           </tbody>
         </table>
       </div>
+    </div>
+  ) : (
+    <div>
+      <h2>product not available</h2>
     </div>
   );
 };
